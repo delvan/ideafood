@@ -22,7 +22,7 @@ class DeliveryTrackingApplicationTests {
 		delivery.editPreparationDetails(cretedValidPreparationDetails());
 
 		delivery.place();
-		assert delivery.getStatus() == DeliveryStatus.WAITING_FOR_COURIER;
+		assertEquals(DeliveryStatus.WAITING_FOR_COURIER, delivery.getStatus());;
 		assertNotNull(delivery.getPlacedAt());
 	}
 

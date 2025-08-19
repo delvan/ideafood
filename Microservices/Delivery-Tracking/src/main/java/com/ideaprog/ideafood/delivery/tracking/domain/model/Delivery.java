@@ -119,7 +119,7 @@ public class Delivery {
     }
 
     public void editPreparationDetails(PreparationDetails preparationDetails, BigDecimal totalCost) {
-        verify(preparationDetails != null, "Preparation details cannot be null");
+        verifyIfCanBeEdited();
         this.setSender(preparationDetails.getSender());
         this.setRecipient(preparationDetails.getRecipient());
         this.setDistanceFee(preparationDetails.getDistanceFee());
