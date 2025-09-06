@@ -6,6 +6,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,8 +20,10 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Setter(AccessLevel.PRIVATE)
+@Entity
 public class Courier {
 
+    @Id
     @EqualsAndHashCode.Include
     private UUID id;
 
@@ -32,6 +38,7 @@ public class Courier {
 
     private OffsetDateTime lastFulfiledDeliveryAt;
 
+    @OneToMany(mappedBy = "courier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AssignedDelivery> pendinDeliveries = new ArrayList<>();
 
     public List<AssignedDelivery> getPendinDeliveries() {
@@ -51,7 +58,7 @@ public class Courier {
     }
 
     public void assign(UUID deliveryId) {
-        this.pendinDeliveries.add(AssignedDelivery.createNew(deliveryId));
+        this.pendinDeliveries.add(AssignedDelivery.createNew(deliveryId, this));
         this.pendingDeliveriesQuantity++;
     }
 
